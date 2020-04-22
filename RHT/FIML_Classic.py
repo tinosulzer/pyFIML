@@ -1,5 +1,7 @@
 import numpy as np
 from RHT import RHT
+import sys
+sys.path.append("../..")
 from pyML.NN import NN
 
 def FIML_Classic(nOptimIter=20, step=0.01, cases=[], data=[]):

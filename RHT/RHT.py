@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from pyML.NN import NN
 
 def setJacobian(jacT, jacbeta, T, T_inf, beta, dy2):
 

@@ -48,8 +48,9 @@ def FIML_Direct(nOptimIter=20, step=0.01, cases=[], data=[]):
         case.direct_solve()
 
 if __name__=="__main__":
-
+    all_Tinfs = [40, 40]
     FIML_Direct(nOptimIter=500,
                 step=0.02,
-                cases=[RHT(T_inf=40)],
-                data=[np.loadtxt("True_solutions/solution_40")])
+                cases=[RHT(T_inf=T_inf) for T_inf in all_Tinfs],
+                data=[np.loadtxt("True_solutions/solution_{}".format(T_inf)) 
+                      for T_inf in all_Tinfs])
