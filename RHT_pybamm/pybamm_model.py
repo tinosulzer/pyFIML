@@ -29,6 +29,8 @@ class RHT:
         self.lambda_reg = lambda_reg  # Regularization constant for objective function
         # Initialize beta
         self.beta = np.ones(npoints)
+        # Create self.y
+        self.y = np.linspace(0, 1, npoints)
         # Initialize flags
         self.has_obj_and_jac_funs = False
 
@@ -75,7 +77,7 @@ class RHT:
             ax.set_ylabel("Temperature")
             plt.show()
 
-        self.T_eval = T_eval
+        self.T_eval = T_eval.flatten()
         return T_eval
 
     # ----------------------------------------------------------------------------------
@@ -85,6 +87,9 @@ class RHT:
             self.create_obj_and_jac_funs(data)
 
         return self.jac_fun(self.beta).full().flatten()
+
+    def obj_and_adjoint_solve(self, data):
+        return self.getObj(data), self.adjoint_solve(data)
 
     # ----------------------------------------------------------------------------------
 
@@ -98,9 +103,9 @@ class RHT:
         # Create objective function and derivative
         beta = self.sol.inputs["beta"]
         T = self.T.value({"beta": beta})
-        obj = casadi.sum1((T - data) ** 2) + self.lambda_reg * casadi.sum1(
+        obj = (casadi.sum1((T - data) ** 2) + self.lambda_reg * casadi.sum1(
             (beta - 1.0) ** 2
-        )
+        )) / len(self.y)
         self.obj_fun = casadi.Function("obj", [beta], [obj])
 
         jac = casadi.jacobian(obj, beta)
@@ -108,6 +113,16 @@ class RHT:
 
         self.has_obj_and_jac_funs = True
 
+    def getFeatures(self):
+
+        features = np.zeros((2, self.y.size))
+        features[0,:] = self.T_eval / self.T_inf
+        features[1,:] = self.y
+        return features
+
+    def getBeta(self):
+
+        return self.beta.reshape((1, self.y.size))
 class Model(pybamm.BaseModel):
     "Model with equations"
     def __init__(self, options=None):

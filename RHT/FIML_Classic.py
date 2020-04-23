@@ -1,7 +1,8 @@
 import numpy as np
 from RHT import RHT
 import sys
-sys.path.append("../..")
+import os
+sys.path.append(os.getcwd())
 from pyML.NN import NN
 
 def FIML_Classic(nOptimIter=20, step=0.01, cases=[], data=[]):
@@ -46,4 +47,4 @@ if __name__=="__main__":
     FIML_Classic(nOptimIter=1000,
                 step=0.01,
                 cases=[RHT(T_inf=50)],
-                data=[np.loadtxt("True_solutions/solution_50")])
+                data=[np.loadtxt("RHT/True_solutions/solution_50")])

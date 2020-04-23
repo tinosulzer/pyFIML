@@ -1,5 +1,5 @@
 import numpy as np
-from RHT import RHT
+from pybamm_model import RHT
 import sys
 import os
 sys.path.append(os.getcwd())
@@ -35,7 +35,7 @@ def FIML_Direct(nOptimIter=20, step=0.01, cases=[], data=[]):
             case.nn = nn
 
             case.direct_solve()
-            obj, beta_sens = case.adjoint_solve(case_data)
+            obj, beta_sens = case.obj_and_adjoint_solve(case_data)
             nn_sens += nn.GetSens(features, beta_sens)
             obj_total += obj
 
@@ -53,6 +53,6 @@ if __name__=="__main__":
     all_Tinfs = [40]
     FIML_Direct(nOptimIter=500,
                 step=0.02,
-                cases=[RHT(T_inf=T_inf) for T_inf in all_Tinfs],
+                cases=[RHT(T_inf=T_inf, plot=False, lambda_reg=1e-1) for T_inf in all_Tinfs],
                 data=[np.loadtxt("RHT/True_solutions/solution_{}".format(T_inf)) 
                       for T_inf in all_Tinfs])

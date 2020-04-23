@@ -101,7 +101,7 @@ class RHT:
         if self.plot:
 
             plt.plot(self.y, self.T, '-r', LineWidth=2.0, label='Solver')
-            plt.plot(self.y, np.loadtxt('True_solutions/solution_%d'%(int(self.T_inf))), '-k', LineWidth=2.0, label='Exact')
+            plt.plot(self.y, np.loadtxt('RHT/True_solutions/solution_%d'%(int(self.T_inf))), '-k', LineWidth=2.0, label='Exact')
             plt.xlabel("x")
             plt.ylabel("T")
             plt.legend()
