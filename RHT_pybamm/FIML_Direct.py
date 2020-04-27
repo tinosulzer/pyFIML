@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from pybamm_model import RHT
 import sys
 import os
@@ -46,11 +47,13 @@ def FIML_Direct(nOptimIter=20, step=0.01, cases=[], data=[]):
     for case in cases:
 
         case.nn = nn
-        case.plot = True
+        # case.plot = True
         case.direct_solve()
+        plt.plot(case.beta)
+        plt.show()
 
 if __name__=="__main__":
-    all_Tinfs = [40]
+    all_Tinfs = [50]
     FIML_Direct(nOptimIter=500,
                 step=0.02,
                 cases=[RHT(T_inf=T_inf, plot=False, lambda_reg=1e-1) for T_inf in all_Tinfs],

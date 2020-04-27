@@ -89,6 +89,11 @@ class RHT:
         return self.jac_fun(self.beta).full().flatten()
 
     def obj_and_adjoint_solve(self, data):
+        # Update self.beta and NN
+        if self.nn!=None:
+            features = self.getFeatures()
+            self.beta = self.nn.Predict(features)[0,:]
+            
         return self.getObj(data), self.adjoint_solve(data)
 
     # ----------------------------------------------------------------------------------

@@ -70,8 +70,8 @@ def FIML_Classic(nOptimIter=20, step=0.01,cases=[], data=[], optimizer="minimize
         case.direct_solve()
 
 if __name__=="__main__":
-    # optimizer = "steepest descent"
-    optimizer = "scipy.minimize"
+    optimizer = "steepest descent"
+    # optimizer = "scipy.minimize"
     FIML_Classic(nOptimIter=1000,
                 step=0.01,
                 cases=[RHT(T_inf=50, npoints=129, plot=False, lambda_reg=1e-1)],
